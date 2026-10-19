@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="dashboard">
+    <div class="page-shell">
+        <header class="topbar">
+            <a class="brand" href="/index.html">
+                <span class="brand-kicker">Visual Research Archive</span>
+                <span class="brand-title">Image Interest Tracker</span>
+            </a>
+            <nav class="topnav">
+                <a class="nav-link" href="/index.html">Library</a>
+                <a class="nav-link" href="/favorites.html">Favorites</a>
+                <a class="nav-link" href="/timeline.html">Timeline</a>
+                <a class="nav-link is-active" href="/dashboard.html">Dashboard</a>
+            </nav>
+            <div class="auth-panel">
+                <p id="auth-status" class="auth-status">Checking session...</p>
+                <div id="auth-controls" class="auth-controls">
+                    <button id="open-login" class="secondary-button" type="button">Log in</button>
+                    <button id="open-register" class="primary-button compact" type="button">Register</button>
+                </div>
+                <div id="user-controls" class="user-controls is-hidden">
+                    <span id="user-label"></span>
+                    <button id="logout-button" class="secondary-button" type="button">Log out</button>
+                </div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Spatial comparison</p>
+                <h1>Arrange cards freely, annotate them, and connect ideas.</h1>
+                <p class="hero-text">Use the dashboard as a comparison board: drag saved cards into position, write notes, and draw arrows between related items.</p>
+            </div>
+            <div class="hero-actions">
+            </div>
+        </section>
+
+        <main class="dashboard-layout">
+            <aside class="panel dashboard-sidebar">
+                <div class="section-row">
+                    <div>
+                        <p class="section-kicker">Boards</p>
+                        <h2>Saved comparisons</h2>
+                    </div>
+                    <button id="new-board-button" class="primary-button compact" type="button">New board</button>
+                </div>
+                <div id="dashboard-sidebar-meta" class="results-meta"></div>
+                <div id="board-list" class="dashboard-sidebar-list"></div>
+                <div class="dashboard-selection-block">
+                    <div class="section-row">
+                        <div>
+                            <p class="section-kicker">Selected images</p>
+                            <h2>Comparison queue</h2>
+                        </div>
+                    </div>
+                    <div id="dashboard-selection-meta" class="results-meta"></div>
+                    <div id="dashboard-selection-list" class="dashboard-sidebar-list"></div>
+                </div>
+                <div class="dashboard-selection-block">
+                    <div class="section-row">
+                        <div>
+                            <p class="section-kicker">Favorite images</p>
+                            <h2>Saved miniatures</h2>
+                        </div>
+                    </div>
+                    <div id="dashboard-favorites-meta" class="results-meta"></div>
+                    <div id="dashboard-favorites-list" class="dashboard-sidebar-list"></div>
+                </div>
+            </aside>
+
+            <section class="panel dashboard-panel">
+                <div class="section-row">
+                    <div>
+                        <p class="section-kicker">Comparison board</p>
+                        <h2 id="dashboard-board-title">Move, note, and connect</h2>
+                    </div>
+                    <div class="inline-actions">
+                        <button id="import-selected-board" class="secondary-button" type="button">Import selected images</button>
+                        <button id="clear-dashboard" class="secondary-button" type="button">Clear board</button>
+                    </div>
+                </div>
+                <div id="dashboard-meta" class="results-meta"></div>
+                <div id="dashboard-board" class="dashboard-board">
+                    <svg id="dashboard-connections" class="dashboard-connections"></svg>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="auth-modal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+        <div class="modal-backdrop" data-close-auth="true"></div>
+        <div class="modal-panel auth-modal-panel">
+            <div class="modal-header">
+                <div>
+                    <p class="section-kicker" id="auth-modal-kicker">Account</p>
+                    <h2 id="auth-modal-title">Log in</h2>
+                </div>
+                <button id="close-auth" class="secondary-button" type="button">Close</button>
+            </div>
+            <form id="auth-form" class="stack-form">
+                <label><span>Username</span><input type="text" id="auth-username" required></label>
+                <label><span>Password</span><input type="password" id="auth-password" required></label>
+                <button id="auth-submit" class="primary-button" type="submit">Log in</button>
+                <p id="auth-message" class="form-message" aria-live="polite"></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="/app.js" defer></script>
+</body>
+</html>

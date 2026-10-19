@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Interest Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="library">
+    <div class="page-shell">
+        <header class="topbar">
+            <a class="brand" href="/index.html">
+                <span class="brand-kicker">Visual Research Archive</span>
+                <span class="brand-title">Image Interest Tracker</span>
+            </a>
+            <nav class="topnav">
+                <a class="nav-link is-active" href="/index.html">Library</a>
+                <a class="nav-link" href="/favorites.html">Favorites</a>
+                <a class="nav-link" href="/timeline.html">Timeline</a>
+                <a class="nav-link" href="/dashboard.html">Dashboard</a>
+            </nav>
+            <div class="auth-panel">
+                <p id="auth-status" class="auth-status">Checking session...</p>
+                <div id="auth-controls" class="auth-controls">
+                    <button id="open-login" class="secondary-button" type="button">Log in</button>
+                    <button id="open-register" class="primary-button compact" type="button">Register</button>
+                </div>
+                <div id="user-controls" class="user-controls is-hidden">
+                    <span id="user-label"></span>
+                    <button id="logout-button" class="secondary-button" type="button">Log out</button>
+                </div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Image discovery</p>
+                <h1>Track the images that matter, then keep your own saved trail.</h1>
+                <p class="hero-text">Browse the shared image library, save favorites to your account, and later sort them into folders with private notes.</p>
+            </div>
+            <div class="hero-actions">
+                <button id="open-add-image" class="primary-button" type="button">Add image</button>
+            </div>
+        </section>
+
+        <main class="layout">
+            <section class="panel selection-panel">
+                <div class="section-row">
+                    <div>
+                        <p class="section-kicker">Temporary selection</p>
+                        <h2>Sort a working subset</h2>
+                    </div>
+                    <div class="selection-toolbar">
+                        <select id="selection-sort">
+                            <option value="year-desc">Newest year</option>
+                            <option value="year-asc">Oldest year</option>
+                            <option value="paper-asc">Paper A-Z</option>
+                            <option value="paper-desc">Paper Z-A</option>
+                        </select>
+                        <button id="send-selected-dashboard" class="secondary-button" type="button">Send selected to dashboard</button>
+                        <button id="show-selected-timeline" class="secondary-button" type="button">Show selected on timeline</button>
+                        <button id="clear-selection" class="secondary-button" type="button">Clear selection</button>
+                    </div>
+                </div>
+                <div id="selection-meta" class="results-meta"></div>
+                <div id="selection-gallery" class="card-grid"></div>
+            </section>
+
+            <section class="panel collection-panel">
+                <div class="section-row">
+                    <div>
+                        <p class="section-kicker">Library</p>
+                        <h2>Search your archive</h2>
+                    </div>
+                    <button id="select-visible" class="secondary-button" type="button">Select visible</button>
+                </div>
+
+                <div class="toolbar">
+                    <input type="search" id="search-input" placeholder="Search title, paper, creator, notes, tags">
+                    <input type="text" id="tag-filter" placeholder="Filter by tag">
+                </div>
+
+                <div id="results-meta" class="results-meta"></div>
+                <div id="gallery" class="card-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <div id="auth-modal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+        <div class="modal-backdrop" data-close-auth="true"></div>
+        <div class="modal-panel auth-modal-panel">
+            <div class="modal-header">
+                <div>
+                    <p class="section-kicker" id="auth-modal-kicker">Account</p>
+                    <h2 id="auth-modal-title">Log in</h2>
+                </div>
+                <button id="close-auth" class="secondary-button" type="button">Close</button>
+            </div>
+            <form id="auth-form" class="stack-form">
+                <label>
+                    <span>Username</span>
+                    <input type="text" id="auth-username" required>
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input type="password" id="auth-password" required>
+                </label>
+                <button id="auth-submit" class="primary-button" type="submit">Log in</button>
+                <p id="auth-message" class="form-message" aria-live="polite"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="form-modal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="form-modal-title">
+        <div class="modal-backdrop" data-close-form="true"></div>
+        <div class="modal-panel wide-modal">
+            <div class="modal-header">
+                <div>
+                    <p class="section-kicker">Add image</p>
+                    <h2 id="form-modal-title">Capture what stands out</h2>
+                </div>
+                <button id="close-form" class="secondary-button" type="button">Close</button>
+            </div>
+
+            <form id="image-form" class="image-form">
+                <div class="form-section">
+                    <p class="form-section-title">Descriptive metadata</p>
+                    <label><span>Title</span><input type="text" id="title" name="title" required></label>
+                    <label><span>Image caption</span><input type="text" id="imageCaption" name="imageCaption"></label>
+                    <label><span>Image description</span><textarea id="imageDescription" name="imageDescription" rows="3"></textarea></label>
+                    <label><span>Keywords / tags</span><input type="text" id="tags" name="tags" placeholder="portrait, color, typography"></label>
+                    <div class="split-fields">
+                        <label><span>Location taken</span><input type="text" id="locationTaken" name="locationTaken"></label>
+                        <label><span>Date taken</span><input type="date" id="dateTaken" name="dateTaken"></label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <p class="form-section-title">Technical metadata</p>
+                    <label><span>Image URL</span><input type="url" id="imageUrl" name="imageUrl" required></label>
+                    <div class="triple-fields">
+                        <label><span>File size (bytes)</span><input type="number" id="fileSize" name="fileSize" min="0"></label>
+                        <label><span>File type</span><input type="text" id="fileType" name="fileType"></label>
+                        <label><span>Resolution</span><input type="text" id="resolution" name="resolution" placeholder="1920x1080"></label>
+                    </div>
+                    <div class="split-fields">
+                        <label><span>Camera metadata (EXIF)</span><textarea id="cameraMetadata" name="cameraMetadata" rows="3" placeholder='{"camera":"Canon EOS R"}'></textarea></label>
+                        <label><span>Colour profile</span><input type="text" id="colorProfile" name="colorProfile"></label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <p class="form-section-title">Administrative & provenance metadata</p>
+                    <div class="split-fields">
+                        <label><span>Paper</span><input type="text" id="paper" name="paper"></label>
+                        <label><span>Source URL</span><input type="url" id="sourceUrl" name="sourceUrl"></label>
+                    </div>
+                    <div class="split-fields">
+                        <label><span>Creator / author</span><input type="text" id="creator" name="creator"></label>
+                        <label>
+                            <span>Copyright status</span>
+                            <select id="copyrightStatus" name="copyrightStatus">
+                                <option value="">Select status</option>
+                                <option value="copyrighted">Copyrighted</option>
+                                <option value="public domain">Public domain</option>
+                                <option value="cc licensed">CC licensed</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="split-fields">
+                        <label><span>License type</span><input type="text" id="licenseType" name="licenseType"></label>
+                        <label>
+                            <span>Edited status</span>
+                            <select id="editedStatus" name="editedStatus">
+                                <option value="false">Not edited</option>
+                                <option value="true">Edited</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="triple-fields">
+                        <label><span>Date created</span><input type="date" id="dateCreated" name="dateCreated"></label>
+                        <label><span>Date modified</span><input type="date" id="dateModified" name="dateModified"></label>
+                        <label><span>Version</span><input type="text" id="version" name="version"></label>
+                    </div>
+                    <label><span>Editor</span><input type="text" id="editor" name="editor"></label>
+                    <label><span>Notes</span><textarea id="notes" name="notes" rows="3"></textarea></label>
+                </div>
+
+                <button type="submit" class="primary-button">Save image</button>
+                <p id="form-message" class="form-message" aria-live="polite"></p>
+            </form>
+        </div>
+    </div>
+
+    <template id="image-card-template">
+        <article class="image-card">
+            <div class="image-frame"><img alt=""></div>
+            <div class="image-card-content">
+                <div class="card-topline">
+                    <h3></h3>
+                    <button class="favorite-button" type="button"></button>
+                </div>
+                <p class="meta-line"></p>
+                <p class="caption-line"></p>
+                <p class="description"></p>
+                <div class="tags"></div>
+                <div class="card-footer">
+                    <time></time>
+                    <div class="card-action-row">
+                        <a class="detail-link" href="#">View details</a>
+                        <button class="select-button" type="button">Select</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </template>
+
+    <script src="/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Comparison</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="timeline">
+    <div class="page-shell">
+        <header class="topbar">
+            <a class="brand" href="/index.html">
+                <span class="brand-kicker">Visual Research Archive</span>
+                <span class="brand-title">Image Interest Tracker</span>
+            </a>
+            <nav class="topnav">
+                <a class="nav-link" href="/index.html">Library</a>
+                <a class="nav-link" href="/favorites.html">Favorites</a>
+                <a class="nav-link is-active" href="/timeline.html">Timeline</a>
+                <a class="nav-link" href="/dashboard.html">Dashboard</a>
+            </nav>
+            <div class="auth-panel">
+                <p id="auth-status" class="auth-status">Checking session...</p>
+                <div id="auth-controls" class="auth-controls">
+                    <button id="open-login" class="secondary-button" type="button">Log in</button>
+                    <button id="open-register" class="primary-button compact" type="button">Register</button>
+                </div>
+                <div id="user-controls" class="user-controls is-hidden">
+                    <span id="user-label"></span>
+                    <button id="logout-button" class="secondary-button" type="button">Log out</button>
+                </div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Chronological comparison</p>
+                <h1>Place images on a real scaled timeline.</h1>
+                <p class="hero-text">Cards are positioned from their actual `dateTaken` values, so distance on the timeline reflects distance in time.</p>
+            </div>
+        </section>
+
+        <main class="detail-layout">
+            <section class="panel">
+                <div class="section-row">
+                    <div>
+                        <p class="section-kicker">Timeline</p>
+                        <h2>Scaled archive view</h2>
+                    </div>
+                    <div class="inline-actions">
+                        <button id="timeline-selected-only" class="secondary-button" type="button">Selected subset</button>
+                        <button id="timeline-show-all" class="secondary-button" type="button">All images</button>
+                    </div>
+                </div>
+                <div id="timeline-meta" class="results-meta"></div>
+                <div id="timeline-shell" class="timeline-shell"></div>
+            </section>
+        </main>
+    </div>
+
+    <div id="auth-modal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+        <div class="modal-backdrop" data-close-auth="true"></div>
+        <div class="modal-panel auth-modal-panel">
+            <div class="modal-header">
+                <div>
+                    <p class="section-kicker" id="auth-modal-kicker">Account</p>
+                    <h2 id="auth-modal-title">Log in</h2>
+                </div>
+                <button id="close-auth" class="secondary-button" type="button">Close</button>
+            </div>
+            <form id="auth-form" class="stack-form">
+                <label><span>Username</span><input type="text" id="auth-username" required></label>
+                <label><span>Password</span><input type="password" id="auth-password" required></label>
+                <button id="auth-submit" class="primary-button" type="submit">Log in</button>
+                <p id="auth-message" class="form-message" aria-live="polite"></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="/app.js" defer></script>
+</body>
+</html>

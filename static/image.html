@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Details</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="image">
+    <div class="page-shell">
+        <header class="topbar">
+            <a class="brand" href="/index.html">
+                <span class="brand-kicker">Visual Research Archive</span>
+                <span class="brand-title">Image Interest Tracker</span>
+            </a>
+            <nav class="topnav">
+                <a class="nav-link" href="/index.html">Library</a>
+                <a class="nav-link" href="/favorites.html">Favorites</a>
+                <a class="nav-link is-active" href="/image.html">Image</a>
+                <a class="nav-link" href="/timeline.html">Timeline</a>
+                <a class="nav-link" href="/dashboard.html">Dashboard</a>
+            </nav>
+            <div class="auth-panel">
+                <p id="auth-status" class="auth-status">Checking session...</p>
+                <div id="auth-controls" class="auth-controls">
+                    <button id="open-login" class="secondary-button" type="button">Log in</button>
+                    <button id="open-register" class="primary-button compact" type="button">Register</button>
+                </div>
+                <div id="user-controls" class="user-controls is-hidden">
+                    <span id="user-label"></span>
+                    <button id="logout-button" class="secondary-button" type="button">Log out</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="detail-layout">
+            <section class="panel detail-hero">
+                <div class="detail-image-shell">
+                    <img id="detail-image" class="detail-image" alt="">
+                </div>
+                <div class="detail-summary">
+                    <p class="section-kicker">Image page</p>
+                    <h1 id="detail-title">Loading image...</h1>
+                    <p id="detail-caption" class="hero-text"></p>
+                    <div class="detail-action-row">
+                        <button id="detail-favorite" class="favorite-button" type="button">Save</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel detail-metadata-panel">
+                <div class="section-row">
+                    <div>
+                        <p class="section-kicker">Metadata</p>
+                        <h2>Full record</h2>
+                    </div>
+                </div>
+                <div id="detail-description" class="detail-description"></div>
+                <div id="metadata-groups" class="metadata-groups"></div>
+            </section>
+
+            <section class="panel detail-related-panel">
+                <div class="section-row">
+                    <div>
+                        <p class="section-kicker">Recommended images</p>
+                        <h2>Similar by title, year, and paper</h2>
+                    </div>
+                </div>
+                <div id="related-meta" class="results-meta"></div>
+                <div id="related-gallery" class="card-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <div id="auth-modal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+        <div class="modal-backdrop" data-close-auth="true"></div>
+        <div class="modal-panel auth-modal-panel">
+            <div class="modal-header">
+                <div>
+                    <p class="section-kicker" id="auth-modal-kicker">Account</p>
+                    <h2 id="auth-modal-title">Log in</h2>
+                </div>
+                <button id="close-auth" class="secondary-button" type="button">Close</button>
+            </div>
+            <form id="auth-form" class="stack-form">
+                <label><span>Username</span><input type="text" id="auth-username" required></label>
+                <label><span>Password</span><input type="password" id="auth-password" required></label>
+                <button id="auth-submit" class="primary-button" type="submit">Log in</button>
+                <p id="auth-message" class="form-message" aria-live="polite"></p>
+            </form>
+        </div>
+    </div>
+
+    <template id="image-card-template">
+        <article class="image-card">
+            <div class="image-frame"><img alt=""></div>
+            <div class="image-card-content">
+                <div class="card-topline">
+                    <h3></h3>
+                    <button class="favorite-button" type="button"></button>
+                </div>
+                <p class="meta-line"></p>
+                <p class="caption-line"></p>
+                <p class="description"></p>
+                <div class="tags"></div>
+                <div class="card-footer">
+                    <time></time>
+                    <div class="card-action-row">
+                        <a class="detail-link" href="#">View details</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </template>
+
+    <script src="/app.js" defer></script>
+</body>
+</html>
